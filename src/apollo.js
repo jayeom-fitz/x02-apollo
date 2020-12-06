@@ -1,7 +1,7 @@
-import ApolloClient from '@apollo/client';
+import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
-    uri: 'https://yts-proxy.now.sh/list_movies.json',
+    uri: "http://localhost:4000/",
 });
 
 export default client;
