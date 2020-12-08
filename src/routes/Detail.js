@@ -4,24 +4,30 @@ import {gql} from "apollo-boost";
 import { useQuery } from '@apollo/react-hooks';
 
 const GET_MOVIE = gql`
-  query getMovie($id: Int){
+  query getMovie($id: Int!){
     movie(id: $id){
       id
       title
-      medium_cover_image
+      description_full
+      background_image
+      large_cover_image
     }
   }
 `;
 
-function Detail() {
+export default () => {
   const { id } = useParams();
-  const { loading, data } = useQuery(GET_MOVIE);
-  console.log(loading, data);
-  return (
-    <div>
-      {id}
-    </div>
-  );
-}
+  const { loading, data } = useQuery(GET_MOVIE, {
+    variables: {id: parseInt(id)}
+  });
 
-export default Detail;
+  console.log(loading, data);
+
+  if(loading) {
+    return "loading";
+  } 
+  
+  if(data && data.movie) {
+    return data.movie.title;
+  }
+};
