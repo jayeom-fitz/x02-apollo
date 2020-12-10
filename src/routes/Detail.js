@@ -65,18 +65,16 @@ export default () => {
     <Container bg={!loading && data.movie && data.movie.background_image}>
       <Column>
         <Title>{loading ? "Loading..." : data.movie.title}</Title>
-        {!loading && data.movie && (
-          <>
-            <Subtitle>{data.movie.year} - {data.movie.rating}</Subtitle>
-            <Description>{data.movie.description_full}</Description>
-          </>
-        )}
+        
+        <Subtitle>{data?.movie?.year} - {data?.movie?.rating}</Subtitle>
+        <Description>{data?.movie?.description_full}</Description>
+        
       </Column>
-      {!loading && data.movie && (
-        <Poster>
-          <img src={data.movie.medium_cover_image}></img>
-        </Poster> 
-      )}
+      
+      <Poster>
+        <img src={data?.movie?.medium_cover_image}></img>
+      </Poster> 
+
     </Container>
   );
 };
