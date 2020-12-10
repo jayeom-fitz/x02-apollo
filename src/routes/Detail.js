@@ -7,6 +7,7 @@ import styled from "styled-components";
 const GET_MOVIE = gql`
   query getMovie($id: Int!){
     movie(id: $id){
+      id
       title
       rating
       year
@@ -14,6 +15,7 @@ const GET_MOVIE = gql`
       background_image
       medium_cover_image
       genres
+      isLiked @client
     }
   }
 `;
@@ -64,7 +66,10 @@ export default () => {
   return (
     <Container bg={!loading && data.movie && data.movie.background_image}>
       <Column>
-        <Title>{loading ? "Loading..." : data.movie.title}</Title>
+        <Title>
+          {loading ? "Loading..." 
+          : `${data.movie.title} ${data.movie.isLiked ? "💖" : "😞"}`}
+        </Title>
         
         <Subtitle>{data?.movie?.year} - {data?.movie?.rating}</Subtitle>
         <Description>{data?.movie?.description_full}</Description>
