@@ -9,18 +9,18 @@ const GET_MOVIE = gql`
     movie(id: $id){
       title
       rating
+      year
       description_full
       background_image
-      large_cover_image
+      medium_cover_image
       genres
-      language
     }
   }
 `;
 
 const Container = styled.div`
   height: 100vh;
-  background-image: linear-gradient(-45deg, #d754ab, #fd723a);
+  background-image: url(${props => props.bg});
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -29,7 +29,10 @@ const Container = styled.div`
 `;
 
 const Column = styled.div`
+  background-image: linear-gradient(-45deg, #d754ab, #fd723a);
   margin-left: 10px;
+  padding: 10px 10px 10px 10px;
+  width : 50%;
 `;
 
 const Title = styled.h1`
@@ -43,11 +46,11 @@ const Subtitle = styled.h4`
 `;
 
 const Description = styled.p`
-  font-size: 28px;
+  font-size: 14px;
 `;
 
 const Poster = styled.div`
-  width: 25%;
+  width: 30%;
   height: 60%;
   background-color: transparent;
 `;
@@ -59,13 +62,21 @@ export default () => {
   });
 
   return (
-    <Container>
+    <Container bg={!loading && data.movie && data.movie.background_image}>
       <Column>
-        <Title>Name</Title>
-        <Subtitle>English · 4.5</Subtitle>
-        <Description>lorem ipsum lalalla </Description>
+        <Title>{loading ? "Loading..." : data.movie.title}</Title>
+        {!loading && data.movie && (
+          <>
+            <Subtitle>{data.movie.year} - {data.movie.rating}</Subtitle>
+            <Description>{data.movie.description_full}</Description>
+          </>
+        )}
       </Column>
-      <Poster></Poster>
+      {!loading && data.movie && (
+        <Poster>
+          <img src={data.movie.medium_cover_image}></img>
+        </Poster> 
+      )}
     </Container>
   );
 };
